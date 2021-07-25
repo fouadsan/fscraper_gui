@@ -1,6 +1,9 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QMessageBox
+
+from scraper import scrap
 
 
 class Ui_MainWindow(object):
@@ -22,7 +25,7 @@ class Ui_MainWindow(object):
                                  "font-weight: bold;\n"
                                  "padding-left: 70px;\n"
                                  "color: #FF7600;\n"
-                                 "border: 4px solid gray;\n"
+                                 "border: 4px solid #eee;\n"
                                  )
         self.label.setObjectName("label")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
@@ -51,7 +54,7 @@ class Ui_MainWindow(object):
                                       "border: 2px solid gray;\n"
                                       "font-size: 24px;\n"
                                       "color: rgba(62, 33, 93, 0.8);")
-        self.lineEdit_2.setPlaceholderText('HTML Element without  " "')
+        self.lineEdit_2.setPlaceholderText('Class name without  " "')
         self.lineEdit_2.setObjectName("textEdit_2")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
         self.label_4.setGeometry(QtCore.QRect(70, 480, 181, 71))
@@ -65,17 +68,20 @@ class Ui_MainWindow(object):
                                       "border: 2px solid gray;\n"
                                       "font-size: 24px;\n"
                                       "color: rgba(62, 33, 93, 0.8);")
-        self.lineEdit_3.setPlaceholderText('Class name without  " "')
+        self.lineEdit_3.setPlaceholderText('HTML Element without  " "')
         self.lineEdit_3.setObjectName("textEdit_3")
 
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(240, 620, 341, 61))
-        self.pushButton.setStyleSheet("background-color: #FF7600;\n"
+        self.pushButton.setStyleSheet("background-color: rgb(255, 118, 0);\n"
+                                      "color: whitesmoke;\n"
                                       "font-size: 28px;\n"
                                       "font-weight: bold;\n"
                                       "border: none;\n"
                                       "")
         self.pushButton.setObjectName("pushButton")
+
+        self.pushButton.clicked.connect(self.operate)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -90,9 +96,28 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "FScraper 🔍 "))
         self.label_2.setText(_translate("MainWindow", "URL:"))
-        self.label_3.setText(_translate("MainWindow", "ELEMENT:"))
-        self.label_4.setText(_translate("MainWindow", "Class:"))
-        self.pushButton.setText(_translate("MainWindow", "SUBMIT"))
+        self.label_3.setText(_translate("MainWindow", "Class:"))
+        self.label_4.setText(_translate("MainWindow", "ELEMENT:"))
+        self.pushButton.setText(_translate("MainWindow", "GET DATA"))
+
+    def showDialog(self, title, msg):
+        self.msgBox = QMessageBox()
+        self.msgBox.setWindowTitle(title)
+        self.msgBox.setText(msg)
+        self.msgBox.exec()
+
+    def operate(self):
+        url = self.lineEdit.text()
+        class_name = self.lineEdit_2.text()
+        html_element = self.lineEdit_3.text()
+
+        if url and class_name and html_element:
+            self.pushButton.setEnabled(False)
+            scrap(url, class_name, html_element)
+            self.showDialog(
+                "Success", "A csv file contains scraped data has been created")
+        else:
+            self.showDialog("No Enteries", "Please fill all fields")
 
 
 if __name__ == "__main__":
