@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
+import os
 import csv
 
 
@@ -9,7 +10,9 @@ def scrap(url, class_name, html_element, *args):
 
     soup = BeautifulSoup(source, 'lxml')
 
-    with open('scraped.csv', 'w') as csv_file:
+    path = os.path.join(os.environ["USERPROFILE"], "Downloads")
+
+    with open(f'{path}\\scraped.csv', 'w') as csv_file:
         csv_writer = csv.writer(csv_file)
 
         csv_writer.writerow(['object'])

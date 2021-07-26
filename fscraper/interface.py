@@ -11,7 +11,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("FScraper")
         MainWindow.setEnabled(True)
         MainWindow.resize(808, 734)
-        MainWindow.setWindowIcon(QIcon('icon.png'))
+        MainWindow.setWindowIcon(QIcon('app.ico'))
         MainWindow.setStyleSheet("background-color: #2a2a72;\n"
                                  "background-image: linear-gradient(315deg, #2a2a72 0%, #009ffd 74%);\n"
                                  "color: #fff;\n"
@@ -93,7 +93,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("FScraper", "FScraper"))
         self.label.setText(_translate("MainWindow", "FScraper 🔍 "))
         self.label_2.setText(_translate("MainWindow", "URL:"))
         self.label_3.setText(_translate("MainWindow", "Class:"))
@@ -115,7 +115,7 @@ class Ui_MainWindow(object):
             self.pushButton.setEnabled(False)
             scrap(url, class_name, html_element)
             self.showDialog(
-                "Success", "A csv file contains scraped data has been created")
+                "Success", "A csv file contains scraped data has been created in your Downloads folder.")
         else:
             self.showDialog("No Enteries", "Please fill all fields")
 
