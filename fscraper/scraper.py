@@ -33,5 +33,3 @@ def scrap(url, class_name, html_element, *args):
                     object = None
 
             csv_writer.writerow([object])
-
-    csv_file.close()
